@@ -56,12 +56,18 @@ def create_dataset(filenames, batch_size):
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
+data_augmentation = keras.Sequential(
+    [
+      tf.keras.layers.experimental.preprocessing.RandomContrast(0.3,0.7)
+      tf.keras.preprocessing.image.random_brightness(0.4)
+    ]
+)
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  new_input=tf.keras.layers.experimental.preprocessing.RandomContrast(0.8,1.4)(inputs)
-  new_input=tf.keras.preprocessing.image.random_brightness(0.2,0.5)(new_input)
-  model = EfficientNetB0(include_top=False,input_tensor=new_input,weights="imagenet")
+  x_1=data_augmetation(x_1)
+  x_1= preprocessing.Rescaling(1.0 / 255)(x_1)
+  model = EfficientNetB0(include_top=False,input_tensor=x_1,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES,activation=tf.keras.activations.softmax)(x)
