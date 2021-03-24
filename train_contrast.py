@@ -59,7 +59,7 @@ def create_dataset(filenames, batch_size):
 data_augmentation = keras.Sequential(
     [
       tf.keras.layers.experimental.preprocessing.RandomContrast(0.3,0.7)
-      tf.keras.preprocessing.image.random_brightness(0.4)
+      tf.keras.preprocessing.image.random_brightness(0.4,0.7)
     ]
 )
 
