@@ -59,7 +59,7 @@ def create_dataset(filenames, batch_size):
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
   x_1=tf.keras.layers.experimental.preprocessing.RandomContrast(0.3,0.7)(inputs)
-  x_1=tf.keras.preprocessing.image.random_brightness((0.4,0.8))(x_1)
+  x_1=tf.keras.preprocessing.image.random_brightness(x_1,(0.4,0.8))(x_1)
   x_1= preprocessing.Rescaling(1.0 / 255)(x_1)
   model = EfficientNetB0(include_top=False,input_tensor=x_1,weights="imagenet")
   model.trainable=False
