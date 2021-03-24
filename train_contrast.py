@@ -56,13 +56,6 @@ def create_dataset(filenames, batch_size):
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
-data_augmentation = keras.Sequential(
-    [
-      tf.keras.layers.experimental.preprocessing.RandomContrast(0.3,0.7)
-      tf.keras.preprocessing.image.random_brightness()
-    ]
-)
-
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
   x_1=tf.keras.layers.experimental.preprocessing.RandomContrast(0.3,0.7)(inputs)
