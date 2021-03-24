@@ -45,7 +45,7 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def random_brightness(image):
-  return tf.keras.preprocessing.image.random_brightness
+  return tf.keras.preprocessing.image.random_brightness(image)
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
