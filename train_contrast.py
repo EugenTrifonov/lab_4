@@ -45,7 +45,7 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def random_brightness(image,label):
-    return tf.keras.preprocessing.image.random_brightness(image,brightness_range = tupple(0.4,0.6)),label
+    return tf.keras.preprocessing.image.random_brightness(image,brightness_range = tuple(0.4,0.6)),label
   #return tf.image.adjust_contrast(image,0.5),label
 
 def create_dataset(filenames, batch_size):
