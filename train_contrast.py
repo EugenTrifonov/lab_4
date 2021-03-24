@@ -45,7 +45,7 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def random_brightness(image,label):
-  return tf.image.adjust_contrast(image),label
+  return tf.image.adjust_contrast(image,0.5),label
 
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
