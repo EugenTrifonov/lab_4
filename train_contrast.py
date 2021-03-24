@@ -44,8 +44,8 @@ def parse_proto_example(proto):
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
-def random_brightness(image):
-  return tf.keras.preprocessing.image.random_brightness(image)
+def random_brightness(image,label):
+  return tf.keras.preprocessing.image.random_brightness(image),label
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
