@@ -44,7 +44,8 @@ def parse_proto_example(proto):
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
-
+def random_brightness(image):
+  return tf.keras.preprocessing.image.random_brightness
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
@@ -54,12 +55,12 @@ def create_dataset(filenames, batch_size):
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
     .batch(batch_size)\
+    .map(random_brightness)\
     .prefetch(tf.data.AUTOTUNE)
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
   x_1=tf.keras.layers.experimental.preprocessing.RandomContrast(0.3,0.7)(inputs)
-  x_1=tf.keras.preprocessing.image.random_brightness(x_1,(0.2,0.4))
   model = EfficientNetB0(include_top=False,input_tensor=x_1,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
