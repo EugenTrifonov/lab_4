@@ -45,7 +45,7 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def random_brightness(image,label):
-      return tf.image.random_brightness(image,0.2),label
+      return tf.image.random_brightness(image,0.1),label
 
 
 def create_dataset(filenames, batch_size):
@@ -62,7 +62,7 @@ def create_dataset(filenames, batch_size):
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x1=tf.keras.layers.experimental.preprocessing.RandomContrast(0.2,0.4)(inputs)
+  x1=tf.keras.layers.experimental.preprocessing.RandomContrast(0.1,0.1)(inputs)
   model = EfficientNetB0(include_top=False,input_tensor=x1,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
