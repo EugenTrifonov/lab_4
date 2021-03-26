@@ -45,8 +45,8 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def random_brightness(image,label):
-    return tf.keras.preprocessing.image.random_brightness(image,brightness_range = (0.4,0.7)),label
-  #return tf.image.adjust_contrast(image,0.5),label
+      return tf.image.random_brightness(image,0.5),label
+
 
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
@@ -55,8 +55,8 @@ def create_dataset(filenames, batch_size):
   """
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
-    .map(random_brightness)\
     .cache()\
+    .map(random_brightness)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
