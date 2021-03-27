@@ -44,8 +44,7 @@ def parse_proto_example(proto):
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
-def random_brightness(image,label):
-      return tf.image.random_brightness(image,0.2),label
+
 
 
 def create_dataset(filenames, batch_size):
@@ -56,13 +55,12 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(random_brightness)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x1=tf.keras.layers.experimental.preprocessing.RandomContrast(0.2,0.2)(inputs)
+  x1=tf.keras.layers.GaussianNoise(0.1)(inputs)
   model = EfficientNetB0(include_top=False,input_tensor=x1,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
@@ -70,7 +68,7 @@ def build_model():
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 def exp_decay(epoch):
    initial_lrate = 0.1
-   k = 0.6
+   k = 0.5
    lrate = initial_lrate * exp(-k*epoch)
    return lrate
 lrate = LearningRateScheduler(exp_decay)
