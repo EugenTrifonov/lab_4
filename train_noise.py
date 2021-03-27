@@ -57,17 +57,23 @@ def create_dataset(filenames, batch_size):
     .cache()\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
+data_augmentation = keras.Sequential(
+    [
+tf.keras.layers.GaussianNoise(0.1)
+    ]
+)
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x1=tf.keras.layers.GaussianNoise(0.05)(inputs)
-  model = EfficientNetB0(include_top=False,input_tensor=x1,weights="imagenet")
+  #x1=tf.keras.layers.GaussianNoise(0.05)(inputs)
+  new_input=data_augmentation(inputs)
+  model = EfficientNetB0(include_top=False,input_tensor=new_input,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES,activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 def exp_decay(epoch):
-   initial_lrate = 0.01
+   initial_lrate = 0.1
    k = 0.5
    lrate = initial_lrate * exp(-k*epoch)
    return lrate
