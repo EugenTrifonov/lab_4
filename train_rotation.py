@@ -45,7 +45,7 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def rotate(image, label):
-  return tf.keras.preprocessing.image.random_rotation(image,(2,2)),label
+  return tf.keras.preprocessing.image.random_rotation(image,20),label
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
