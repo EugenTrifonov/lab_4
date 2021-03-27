@@ -58,7 +58,7 @@ def create_dataset(filenames, batch_size):
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x1=tf.keras.layers.experimental.preprocessing.RandomRotation(0.9,fill_mode='nearest')(inputs)
+  x1=tf.keras.layers.experimental.preprocessing.RandomRotation(0.2,fill_mode='nearest')(inputs)
   model = EfficientNetB0(include_top=False,input_tensor=x1,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
@@ -66,7 +66,7 @@ def build_model():
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 def exp_decay(epoch):
    initial_lrate = 0.1
-   k = 0.6
+   k = 0.45
    lrate = initial_lrate * exp(-k*epoch)
    return lrate
 lrate = LearningRateScheduler(exp_decay)
