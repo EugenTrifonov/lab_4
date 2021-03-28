@@ -45,8 +45,8 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def image_preprocess(image,label):
-    new_image = tf.image.adjust_contrast(image, 1.5)
-    new_image = tf.image.adjust_brightness(new_image, 0.2)
+    new_image = tf.image.adjust_contrast(image, 3)
+    new_image = tf.image.adjust_brightness(new_image, 0.5)
     return new_image,label
 
 
