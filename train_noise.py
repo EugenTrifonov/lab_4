@@ -59,7 +59,7 @@ def create_dataset(filenames, batch_size):
     .prefetch(tf.data.AUTOTUNE)
 data_augmentation = keras.Sequential(
     [
-tf.keras.layers.GaussianNoise(0.1)
+tf.keras.layers.GaussianNoise(0.05)
     ]
 )
 
