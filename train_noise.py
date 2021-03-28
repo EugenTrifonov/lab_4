@@ -61,7 +61,7 @@ def create_dataset(filenames, batch_size):
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  new_input=tf.keras.layers.GaussianNoise(0.1)(inputs)
+  new_input=tf.keras.layers.GaussianNoise(0.001)(inputs)
   model = EfficientNetB0(include_top=False,input_tensor=new_input,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
