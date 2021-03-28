@@ -44,10 +44,10 @@ def parse_proto_example(proto):
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
-def random_brightness(image,label):
+def image_preprocess(image,label):
     new_image = tf.image.adjust_contrast(image, 2)
     new_image = tf.image.adjust_brightness(new_image, 0.3)
-      return new_image,label
+    return new_image,label
 
 
 def create_dataset(filenames, batch_size):
@@ -58,13 +58,13 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(random_brightness)\
+    .map(image_preprocess)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  model = EfficientNetB0(include_top=False,input_tensor=x1,weights="imagenet")
+  model = EfficientNetB0(include_top=False,input_tensor=inputs,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES,activation=tf.keras.activations.softmax)(x)
