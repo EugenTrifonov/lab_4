@@ -24,7 +24,7 @@ for gpu in gpus:
 
 
 LOG_DIR = 'logs'
-BATCH_SIZE = 16
+BATCH_SIZE = 32
 NUM_CLASSES = 20
 RESIZE_TO = 224
 TRAIN_SIZE = 12786
@@ -45,7 +45,9 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def random_brightness(image,label):
-      return tf.image.random_brightness(image,0.2),label
+    new_image = tf.image.adjust_contrast(image, 2)
+    new_image = tf.image.adjust_brightness(new_image, 0.3)
+      return new_image,label
 
 
 def create_dataset(filenames, batch_size):
@@ -62,15 +64,14 @@ def create_dataset(filenames, batch_size):
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x1=tf.keras.layers.experimental.preprocessing.RandomContrast(0.2,0.2)(inputs)
   model = EfficientNetB0(include_top=False,input_tensor=x1,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES,activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 def exp_decay(epoch):
-   initial_lrate = 0.1
-   k = 0.6
+   initial_lrate = 0.01
+   k = 0.5
    lrate = initial_lrate * exp(-k*epoch)
    return lrate
 lrate = LearningRateScheduler(exp_decay)
