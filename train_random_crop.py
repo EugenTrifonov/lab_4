@@ -24,7 +24,7 @@ for gpu in gpus:
 
 
 LOG_DIR = 'logs'
-BATCH_SIZE = 16
+BATCH_SIZE = 32
 NUM_CLASSES = 20
 RESIZE_TO = 224
 TRAIN_SIZE = 12786
@@ -37,15 +37,15 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
+  example['image'] = tf.image.resize(example['image'], tf.constant([300,300]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
-def random_brightness(image,label):
-      return tf.image.random_brightness(image,0.2),label
+def random_crop(image,label):
+      return tf.image.random_crop(image,[RESIZE_TO, RESIZE_TO, 3]),label
 
 
 def create_dataset(filenames, batch_size):
@@ -56,14 +56,13 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(random_brightness)\
+    .map(random_crop)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x1=tf.keras.layers.experimental.preprocessing.RandomContrast(0.2,0.2)(inputs)
-  model = EfficientNetB0(include_top=False,input_tensor=x1,weights="imagenet")
+  model = EfficientNetB0(include_top=False,input_tensor=inputs,weights="imagenet")
   model.trainable=False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES,activation=tf.keras.activations.softmax)(x)
