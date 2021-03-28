@@ -69,7 +69,7 @@ def build_model():
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 def exp_decay(epoch):
    initial_lrate = 0.01
-   k = 0.4
+   k = 0.6
    lrate = initial_lrate * exp(-k*epoch)
    return lrate
 lrate = LearningRateScheduler(exp_decay)
