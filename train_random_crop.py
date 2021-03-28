@@ -68,7 +68,7 @@ def build_model():
   outputs = tf.keras.layers.Dense(NUM_CLASSES,activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 def exp_decay(epoch):
-   initial_lrate = 0.01
+   initial_lrate = 0.1
    k = 0.5
    lrate = initial_lrate * exp(-k*epoch)
    return lrate
