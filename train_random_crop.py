@@ -37,7 +37,7 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([250,250]))
+  example['image'] = tf.image.resize(example['image'], tf.constant([450,450]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -68,7 +68,7 @@ def build_model():
   outputs = tf.keras.layers.Dense(NUM_CLASSES,activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 def exp_decay(epoch):
-   initial_lrate = 0.1
+   initial_lrate = 0.01
    k = 0.5
    lrate = initial_lrate * exp(-k*epoch)
    return lrate
