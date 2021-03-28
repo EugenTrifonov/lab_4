@@ -24,7 +24,7 @@ for gpu in gpus:
 
 
 LOG_DIR = 'logs'
-BATCH_SIZE = 16
+BATCH_SIZE = 32
 NUM_CLASSES = 20
 RESIZE_TO = 224
 TRAIN_SIZE = 12786
@@ -57,7 +57,7 @@ def create_dataset(filenames, batch_size):
     .prefetch(tf.data.AUTOTUNE)
 data_augmentation = keras.Sequential(
     [
-tf.keras.layers.GaussianNoise(0.15)
+tf.keras.layers.experimental.preprocessing.RandomRotation(0.1)
     ]
 )
 
@@ -70,7 +70,7 @@ def build_model():
   outputs = tf.keras.layers.Dense(NUM_CLASSES,activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 def exp_decay(epoch):
-   initial_lrate = 0.1
+   initial_lrate = 0.01
    k = 0.5
    lrate = initial_lrate * exp(-k*epoch)
    return lrate
