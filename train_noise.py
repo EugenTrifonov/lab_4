@@ -59,13 +59,12 @@ def create_dataset(filenames, batch_size):
     .prefetch(tf.data.AUTOTUNE)
 data_augmentation = keras.Sequential(
     [
-tf.keras.layers.GaussianNoise(0.25)
+tf.keras.layers.GaussianNoise(0.15)
     ]
 )
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  #x1=tf.keras.layers.GaussianNoise(0.05)(inputs)
   new_input=data_augmentation(inputs)
   model = EfficientNetB0(include_top=False,input_tensor=new_input,weights="imagenet")
   model.trainable=False
