@@ -121,6 +121,8 @@ new_input=tf.keras.layers.GaussianNoise(0.05)(inputs)
 По результатам можно сделать вывод,что наиболее оптимальным значением среднеквадратического отклонения шума является 0.1 при initial_lrate=0.01 и k=0.5. При таком параметре алгоритм сошёлся к 12-й эпохе(на 4 эпохи раньше чем исходный). Точность стала ниже на 0.32%
 ##  Обучить нейронную сеть с использованием оптимальных техник аугментации данных 1-4 совместно
 
+![leg_all](https://user-images.githubusercontent.com/80068414/113028502-03cebd80-9194-11eb-8734-35ed14be3c85.png)
+
 Метрика качества на валидации
 
 ![acc_all](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_categorical_accuracy_all.svg)
