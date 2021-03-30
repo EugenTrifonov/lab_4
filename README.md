@@ -1,6 +1,14 @@
 # Использование техник аугментации данных для улучшения сходимости процесса обучения нейронной сети на примере решения задачи классификации Oregon Wildlife
 ## 1. С использованием техники обучения Transfer Learning  и оптимальной политики изменения темпа обучения обучить нейронную сеть EfficientNet-B0 (предварительно обученную на базе изображений imagenet) для решения задачи классификации изображений Oregon WildLife с использованием техник аугментации данных.
 В качестве исходного будем использовать алгоритм с экспоненциальным затуханием темпа обучения с оптимальными параметрами k=0.5 и initial_lrate=0.1.(файл train_exp_decay.py)
+```python
+def exp_decay(epoch):
+   initial_lrate = 0.1
+   k = 0.5
+   lrate = initial_lrate * exp(-k*epoch)
+   return lrate
+lrate = LearningRateScheduler(exp_decay)
+```
 ## 1)Манипуляции с яркостью и контрастом
 Файл train_contrast.py
  ```python
@@ -28,15 +36,6 @@ new_input=tf.keras.layers.experimental.preprocessing.RandomRotation(0.05,fill_mo
 ```
 В некоторых случаях были изменены параметры изменения темпа обучения
 
-Исходные параметры : 
-```python
-def exp_decay(epoch):
-   initial_lrate = 0.1
-   k = 0.5
-   lrate = initial_lrate * exp(-k*epoch)
-   return lrate
-lrate = LearningRateScheduler(exp_decay)
-```
 Изменения:
 
 1)initial_lrate=0.01 k=0.5
