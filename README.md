@@ -71,5 +71,20 @@ lrate = LearningRateScheduler(exp_decay)
 
 По результатам можно сделать вывод,что оптимальным размером изображения является 250х250 px при initial_lrate=0.01 и k=0.5 . При таком значении точность алгоритма стала меньше чем у исходного на 0.99%
 ## 4)Добавление случайного шума
+Файл train_noise.py
+```python
+new_input=tf.keras.layers.GaussianNoise(0.05)(inputs)
+```
+В некоторых случаях были изменены параметры изменения темпа обучения
+Изменения:
+1)initial_lrate=0.01 k=0.5
 
+![leg_noise](https://user-images.githubusercontent.com/80068414/113015678-75077400-9186-11eb-908c-615c18c72845.jpg)
 
+Метрика качества на валидации 
+
+![acc_3](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_categorical_accuracy_noise.svg)
+
+Функция потерь на валидации
+
+![loss_3](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_loss_noise.svg)
