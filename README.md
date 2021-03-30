@@ -76,7 +76,9 @@ lrate = LearningRateScheduler(exp_decay)
 new_input=tf.keras.layers.GaussianNoise(0.05)(inputs)
 ```
 В некоторых случаях были изменены параметры изменения темпа обучения
+
 Изменения:
+
 1)initial_lrate=0.01 k=0.5
 
 ![leg_noise](https://user-images.githubusercontent.com/80068414/113015678-75077400-9186-11eb-908c-615c18c72845.jpg)
@@ -88,3 +90,4 @@ new_input=tf.keras.layers.GaussianNoise(0.05)(inputs)
 Функция потерь на валидации
 
 ![loss_3](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_loss_noise.svg)
+
