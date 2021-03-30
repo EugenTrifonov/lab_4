@@ -54,6 +54,8 @@ lrate = LearningRateScheduler(exp_decay)
 
 ### Исследования режима заполнения
 
+![leg_mode](https://user-images.githubusercontent.com/80068414/113023962-e1867100-918e-11eb-9bf9-8a76aa7e051d.jpg)
+
 Метрика качества на валидации
 
 ![acc_mode](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_categorical_accuracy_rotate_mode.svg)
