@@ -69,7 +69,7 @@ lrate = LearningRateScheduler(exp_decay)
 
 ![loss_2](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_loss_crop.svg)
 
-
+По результатам можно сделать вывод,что оптимальным размером изображения является 250х250 px при initial_lrate=0.01 и k=0.5 . При таком значении точность алгоритма стала меньше чем у исходного на 0.99%
 ## 4)Добавление случайного шума
 
 
