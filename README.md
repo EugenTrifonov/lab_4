@@ -25,7 +25,41 @@
 ```python
 new_input=tf.keras.layers.experimental.preprocessing.RandomRotation(0.05,fill_mode='reflect')(inputs)
 ```
+В некоторых случаях были изменены параметры изменения темпа обучения
 
+Исходные параметры : 
+```python
+def exp_decay(epoch):
+   initial_lrate = 0.1
+   k = 0.5
+   lrate = initial_lrate * exp(-k*epoch)
+   return lrate
+lrate = LearningRateScheduler(exp_decay)
+```
+Изменения:
+
+1)initial_lrate=0.01 k=0.5
+
+![leg_rotate](https://user-images.githubusercontent.com/80068414/113019550-6753ed80-918a-11eb-9474-e6d58eaf444f.jpg)
+
+Метрика качества на валидации
+
+![acc_4](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_categorical_accuracy_rotate.svg)
+
+Функция потерь на валидации
+
+![loss_4](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_loss_rotate.svg)
+
+По результатам можно сказать,что наиболее оптимальным является параметр factor=0.05 при initial_lrate=0.01 k=0.5, что соответствует повороту изображения на случайный угол в диапазоне [-18°,18°].
+
+Исследования режима заполнения
+
+Метрика качества на валидации
+![acc_mode](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_categorical_accuracy_rotate_mode.svg)
+
+Функция потерь на валидации
+
+![loss_mode](https://github.com/EugenTrifonov/lab_4/blob/main/graphs/epoch_loss_rotate_mode.svg)
 ## 3)Использование случайной части изображения 
 Файл train_random_crop.py
 
@@ -41,15 +75,6 @@ def random_crop(image,label):
 
 В некоторых случаях были изменены параметры изменения темпа обучения
 
-Исходные параметры : 
-```python
-def exp_decay(epoch):
-   initial_lrate = 0.1
-   k = 0.5
-   lrate = initial_lrate * exp(-k*epoch)
-   return lrate
-lrate = LearningRateScheduler(exp_decay)
-```
 Изменения:
 
 1)initial_lrate=0.01 k=0.5
