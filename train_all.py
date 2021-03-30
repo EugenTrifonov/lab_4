@@ -47,7 +47,7 @@ def normalize(image, label):
 def random_brightness(image,label):
   new_image = tf.image.adjust_contrast(image, 2)
   new_image = tf.image.adjust_brightness(new_image, 0.4)
-  return tf.image.random_crop(new_image, [224, 224, 3]), label
+  return tf.image.random_crop(new_image, [RESIZE_TO,RESIZE_TO, 3]), label
       
 
 
