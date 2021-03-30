@@ -88,8 +88,7 @@ def random_crop(image,label):
 
 3)initial_lrate=0.01 k=0.55
 
-
-![leg_crop](https://user-images.githubusercontent.com/80068414/113012156-2e644a80-9183-11eb-8b49-710a63b1f552.jpg)
+![leg_crop](https://user-images.githubusercontent.com/80068414/113025591-ca488300-9190-11eb-8334-d93cac193901.png)
 
 Метрика качества на валидации 
 
